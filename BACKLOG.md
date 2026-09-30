@@ -86,11 +86,20 @@ the installed version on the way.
    one's cached targets — one institution's entitlements served as
    another's, silently.
 
-   *Status:* CONFIRMED against `library_resolver.py:334-345` and
-   `:460, :785`. Worked around downstream with a per-library
-   `--resolver-cache-dir`. Fix shape: key every resolver by its own
-   `openurl_base` (accepting a one-time cache miss), and make the list
-   branch honour the env override or say why it cannot.
+   *Status:* FIXED 2026-09-22. `8f1f25a` keys every entry
+   `<doi>[::any]@@<resolver_id>`, where `resolver_id` is the normalised
+   `openurl_base`, and `_cache_key` raises on an empty id. Bare legacy
+   keys are never read; `e9fc8d0` adds `--adopt-legacy-resolver-cache
+   <library>` to keep them, and every run warns when they are present.
+   `load_from_config` now lets `LIBRARY_OPENURL_BASE` replace a
+   configured list. Guarded by
+   `test_list_order_does_not_change_which_key_a_library_reads`,
+   `test_legacy_bare_keys_are_not_read` and
+   `test_env_base_replaces_a_configured_list`. The study re-filed it on
+   2026-09-30 from its 2026-09-07 quarantine notes. Their shared
+   `resolver_cache.json` can be adopted or deleted. The PDF cache and
+   `doi_resolver_cache.json` never held per-library answers: they are
+   keyed by DOI and store the PDF bytes and the publisher URL.
 
    *Files:* `scripts/pipelines/fetchers/library_resolver.py`.
 
