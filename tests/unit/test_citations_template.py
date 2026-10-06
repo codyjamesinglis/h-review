@@ -58,6 +58,7 @@ def _violations(prose: str, tmp_path: Path) -> int:
     manuscript = tmp_path / "manuscript.qmd"
     manuscript.write_text(prose, encoding="utf-8")
     mod.MANUSCRIPT = str(manuscript)
+    mod.CITATION_STYLE = "author-date"
     try:
         mod.test_no_uncited_author_year_mentions()
     except AssertionError as e:
@@ -96,3 +97,56 @@ def test_absent_manuscript_is_skipped(tmp_path: Path) -> None:
     mod = _module()
     mod.MANUSCRIPT = str(tmp_path / "does-not-exist.qmd")
     mod.test_no_uncited_author_year_mentions()
+
+
+def _notes(prose: str, tmp_path: Path):
+    mod = _module()
+    manuscript = tmp_path / "manuscript.qmd"
+    manuscript.write_text(prose, encoding="utf-8")
+    mod.MANUSCRIPT = str(manuscript)
+    mod.CITATION_STYLE = "notes"
+    return mod
+
+
+@pytest.mark.parametrize(
+    ("prose", "flagged"),
+    [
+        ("Hobbes (1651) wrote in exile.", False),
+        ("Skinner argued otherwise (Skinner 1969).", True),
+        ("Locke's Two Treatises appeared in 1689.", False),
+    ],
+)
+def test_notes_style_author_date(prose: str, flagged: bool, tmp_path: Path) -> None:
+    mod = _notes(prose, tmp_path)
+    if flagged:
+        with pytest.raises(AssertionError):
+            mod.test_no_uncited_author_year_mentions()
+    else:
+        mod.test_no_uncited_author_year_mentions()
+
+
+@pytest.mark.parametrize(
+    ("prose", "ok"),
+    [
+        ("Sovereignty is artificial.[^1]\n\n[^1]: [@hobbes1651, p. 91]", True),
+        ("[^1]: [@kant1781, A51/B75]", True),
+        ("[^1]: [@skinner1969, passim; @pocock1975, chap. 3]", True),
+        ("[^1]: See [@hobbes1651, pp. 91-93].", True),
+        ("@skinner1969 [p. 12] argues otherwise.", True),
+        ("[^1]: [@hobbes1651]", False),
+        ("[^1]: [@hobbes1651, p. 91; @locke1689]", False),
+    ],
+)
+def test_notes_style_locators(prose: str, ok: bool, tmp_path: Path) -> None:
+    mod = _notes(prose, tmp_path)
+    if ok:
+        mod.test_citations_have_locators()
+    else:
+        with pytest.raises(AssertionError):
+            mod.test_citations_have_locators()
+
+
+def test_locators_not_required_in_author_date(tmp_path: Path) -> None:
+    mod = _notes("[@hobbes1651] argues.", tmp_path)
+    mod.CITATION_STYLE = "author-date"
+    mod.test_citations_have_locators()

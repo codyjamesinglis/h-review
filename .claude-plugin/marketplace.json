@@ -1,15 +1,15 @@
 {
-  "name": "mronkko",
+  "name": "codyjamesinglis",
   "owner": {
-    "name": "Mikko Rönkkö",
-    "email": "mikko.ronkko@jyu.fi",
-    "url": "https://github.com/mronkko"
+    "name": "Cody James Inglis",
+    "email": "cody.j.inglis@gmail.com",
+    "url": "https://github.com/codyjamesinglis"
   },
   "plugins": [
     {
-      "name": "academic-research",
+      "name": "h-review",
       "source": "./",
-      "description": "Rule-books and procedures for academic research with Claude Code: MCP-grounded citations, empirical integrity, systematic reviews, Zotero operations, and a parallel-critic manuscript revision loop."
+      "description": "Research tooling for intellectual history, the history of political thought and philosophy, and the theory of history. Derived from Mikko Rönkkö's claude-academic-research."
     },
     {
       "name": "editorial-tools",

@@ -1,0 +1,49 @@
+---
+title: "<INSERT YOUR TITLE HERE>"
+author: "<INSERT AUTHOR(S)>"
+date: today
+format:
+  html:
+    toc: true
+  docx:
+    toc: false
+  pdf:
+    documentclass: article
+bibliography: references.bib
+csl: chicago-notes-bibliography.csl
+---
+
+<!--
+  Quarto scaffold for a humanities article or chapter in the history of
+  ideas: interpretive prose, Chicago notes-bibliography, no computed
+  statistics.
+
+  CITATIONS. Cite with a *located* key: `[@hobbes1651, p. 91]`. Pandoc
+  turns every such citation into a footnote, so do not also type `^[...]`
+  around it. Put commentary and the citation in one footnote with
+  `^[Compare [@locke1689, bk. 2, §4] on the state of nature.]`. A whole-work
+  reference says so: `[@skinner1969, passim]`. `scripts/test_citations.py`
+  rejects a citation with no locator.
+
+  QUOTATIONS. Quote in the language you cite. A translation is cited from
+  the translation you actually read (`[@hobbes1994, p. 91]`), with the
+  original-language passage in the footnote when the argument turns on a
+  word. Record the original date in the Zotero `Extra` field
+  (`original-date: 1651`) so the bibliography can show it.
+
+  Delete these comments before submission.
+-->
+
+# Introduction
+
+<!-- State the question, the interlocutors (who has argued what about it),
+     and the claim. A historiographical position goes here, not in a
+     separate "literature review". -->
+
+# <Context: the debate, the period, the text>
+
+# <Argument sections>
+
+# Conclusion
+
+# Bibliography

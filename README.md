@@ -1,8 +1,14 @@
-# claude-academic-research
+# h-review
 
-Academic research plugins for Claude Code and Antigravity: MCP-grounded citations, empirical
-integrity, systematic reviews, Zotero operations, and parallel-critic manuscript
-revision.
+Research plugin for Claude Code and Antigravity, adapted for intellectual history, the
+history of political thought, the history of philosophy, and the theory and philosophy of
+history: grounded citations, Zotero operations, and parallel-critic manuscript revision.
+
+> **Origin.** h-review is a fork of
+> [mronkko/claude-academic-research](https://github.com/mronkko/claude-academic-research)
+> by Mikko Rönkkö (MIT licence). The pipeline, Zotero tooling, critic loop and setup wizard
+> originate there; this fork is re-orienting them toward humanities scholarship. Upstream
+> remains the reference for the systematic-review machinery not yet adapted. See [LICENSE](LICENSE).
 
 ## Install and Load
 
@@ -11,8 +17,8 @@ revision.
 Inside the Claude Code chat (Desktop or CLI):
 
 ```
-/plugin marketplace add mronkko/claude-academic-research
-/plugin install academic-research@mronkko
+/plugin marketplace add codyjamesinglis/h-review
+/plugin install h-review@codyjamesinglis
 ```
 
 After install, run `/setup` once to configure API keys, MCP servers, and
@@ -23,11 +29,11 @@ permission rules. The wizard is chat-driven — no terminal required.
 Inside the Antigravity session/CLI (or terminal):
 
 ```bash
-# Install the main academic-research plugin
-agy plugin install "https://github.com/mronkko/claude-academic-research.git"
+# Install the main h-review plugin
+agy plugin install "https://github.com/codyjamesinglis/h-review.git"
 
 # (Optional) Install the editorial-tools sub-plugin
-agy plugin install "https://github.com/mronkko/claude-academic-research.git/editorial-tools"
+agy plugin install "https://github.com/codyjamesinglis/h-review.git/editorial-tools"
 ```
 
 Works on Windows, macOS, and Linux. Windows users do **not** need WSL or

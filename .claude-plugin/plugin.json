@@ -1,8 +1,12 @@
 {
-  "name": "academic-research",
+  "name": "h-review",
   "version": "0.24.1",
-  "description": "Rule-books and procedures for academic research with Claude Code and Antigravity: MCP-grounded citations, empirical integrity, systematic reviews, Zotero operations, and a parallel-critic manuscript revision loop. Includes a chat-driven /setup wizard for non-technical users.",
-  "author": { "name": "Mikko Rönkkö", "email": "mikko.ronkko@jyu.fi" },
+  "description": "Rule-books and procedures for research in intellectual history, the history of political thought, the history of philosophy and the theory of history: grounded citations, Zotero operations, and a parallel-critic revision loop. Fork of mronkko/claude-academic-research.",
+  "author": {
+    "name": "Cody James Inglis",
+    "email": "cody.j.inglis@gmail.com"
+  },
   "license": "MIT",
-  "homepage": "https://github.com/mronkko/claude-academic-research"
+  "homepage": "https://github.com/codyjamesinglis/h-review",
+  "repository": "https://github.com/mronkko/claude-academic-research"
 }

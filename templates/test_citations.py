@@ -13,7 +13,12 @@ Tests:
 
 1. `references.bib` exists and is non-empty.
 2. Every `@citekey` in the manuscript resolves in `references.bib`.
-3. No bare "Author (YYYY)" mention in prose without a governing `@key`.
+3. No bare author-date mention in prose without a governing `@key`
+   (author-date style: any `Author (YYYY)` / `(Author, YYYY)`; notes
+   style: only the parenthetical `(Author YYYY)` form, since naming an
+   author and a date in running prose is normal in the humanities).
+3b. Notes style only: every citation carries a locator (`p.`, `ch.`,
+   `§`, `bk.`, …) or an explicit `passim`.
 4. BBT keys in `coded_papers.csv` are unique and non-empty.
 5. Every BBT key in `coded_papers.csv` appears in `references.bib`.
 
@@ -50,6 +55,10 @@ from test_common import (
 MANUSCRIPT     = os.path.join(PROJECT_ROOT, "manuscript/manuscript.qmd")
 REFERENCES_BIB = os.path.join(PROJECT_ROOT, "manuscript/references.bib")
 CODED_PAPERS   = os.path.join(PROJECT_ROOT, "analysis/results/coded_papers.csv")
+
+# "notes" (Chicago notes-bibliography; the humanities default) or
+# "author-date" (APA / Chicago author-date).
+CITATION_STYLE = "notes"
 
 
 # ---------------------------------------------------------------------------
@@ -132,7 +141,15 @@ def test_no_uncited_author_year_mentions() -> None:
     for m in pattern.finditer(body):
         surname = m.group(1)
         year = m.group(2) or m.group(3)
-        if not (1900 <= int(year) <= 2099):
+        if CITATION_STYLE == "notes" and m.group(2):
+            # "Hobbes (1651)" names a work's date, not a citation; the
+            # footnote carries the reference. Only `(Author YYYY)` is
+            # smuggled author-date citation.
+            continue
+        # Humanities prose names early dates ("Locke 1689"); keep the
+        # historical range wide in notes style.
+        lo = 1900 if CITATION_STYLE != "notes" else 1000
+        if not (lo <= int(year) <= 2099):
             continue
         if surname in non_names:
             continue
@@ -155,6 +172,45 @@ def test_no_uncited_author_year_mentions() -> None:
         f"{len(violations)} uncited in-text author(year) mention(s) — "
         f"replace with @citekey or rewrite the prose to drop the year:\n"
         + "\n".join(f"  • {v}" for v in violations[:10])
+    )
+
+
+# Pandoc locator labels, plus passim as the explicit "whole work" marker.
+_LOCATOR_RE = re.compile(
+    r"^\s*,?\s*(?:pp?\.|chaps?\.|ch\.|§§?|bks?\.|ll?\.|secs?\.|vols?\.|"
+    r"fols?\.|nn?\.|arts?\.|figs?\.|passim|[AB]\d|\d|[ivxlc]+\b)",
+    re.IGNORECASE,
+)
+
+
+def test_citations_have_locators() -> None:
+    """Notes style: every cited work must be pinpointed.
+
+    `[@hobbes1651, p. 91]`, `[@kant1781, A51/B75]`, or `[@skinner1969,
+    passim]` for a deliberate whole-work reference. A bare `[@key]` in a
+    footnote gives the reader nothing to check, and gives
+    `fact-check` nothing to verify the claim against.
+
+    No-op in author-date style, where the locator is optional.
+    """
+    if CITATION_STYLE != "notes" or not os.path.exists(MANUSCRIPT):
+        return
+    with open(MANUSCRIPT, encoding="utf-8") as f:
+        body = strip_yaml_and_code(f.read())
+    bare: list[str] = []
+    for m in re.finditer(r"(?<![\w@])@([A-Za-z][\w:-]*)", body):
+        tail = body[m.end():m.end() + 40]
+        # Narrative form: `@key [p. 12]`
+        narrative = re.match(r"\s*\[", tail)
+        if narrative and _LOCATOR_RE.match(tail[narrative.end():]):
+            continue
+        if _LOCATOR_RE.match(tail) and tail.lstrip().startswith(","):
+            continue
+        ctx = body[max(0, m.start() - 25):m.end() + 25].replace("\n", " ")
+        bare.append(f"@{m.group(1)} — …{ctx.strip()}…")
+    assert not bare, (
+        f"{len(bare)} citation(s) without a locator — add `, p. N` / "
+        f"`, ch. N` / `, passim`:\n" + "\n".join(f"  • {b}" for b in bare[:10])
     )
 
 
@@ -209,6 +265,8 @@ def main() -> int:
           test_manuscript_citekeys_resolve)
     r.run("no uncited 'Author (YYYY)' mentions in prose",
           test_no_uncited_author_year_mentions)
+    r.run("notes style: every citation has a locator",
+          test_citations_have_locators)
     r.run("BBT keys unique + non-empty in coded_papers.csv",
           test_bbt_keys_unique_in_coded_papers)
     r.run("coded_papers.csv BBT keys all in references.bib",
