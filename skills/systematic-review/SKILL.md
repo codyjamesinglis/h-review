@@ -1,6 +1,6 @@
 ---
 name: systematic-review
-description: Use when running a full systematic literature review (SLR) — PRISMA-style search, screening, coding, and export. Trigger phrases "systematic review", "SLR", "PRISMA", "screen papers", "code papers", "full-text screening". Do NOT use for isolated Zotero enrichment — use `zotero-operations`; for screening on a GPU cluster or batch scheduler — use `cluster-screening`. Targets social sciences; medical-SLR instruments (RoB 2, ROBINS-I, evidence hierarchies, PRISMA-P) are out of scope.
+description: Use when running a full systematic literature review (SLR) — PRISMA-style search, screening, coding, and export. Trigger phrases "systematic review", "SLR", "PRISMA", "screen papers", "code papers", "full-text screening". Do NOT use to survey scholarship in the humanities (intellectual history, philosophy, theory of history) — use `historiographical-survey`. Do NOT use for isolated Zotero enrichment — use `zotero-operations`; for screening on a GPU cluster or batch scheduler — use `cluster-screening`. Targets social sciences; medical-SLR instruments (RoB 2, ROBINS-I, evidence hierarchies, PRISMA-P) are out of scope.
 ---
 
 # systematic-review

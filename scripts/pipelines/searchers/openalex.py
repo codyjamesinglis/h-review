@@ -48,7 +48,10 @@ class OpenAlexSearch(SearchSource):
     supports_citation_search = True
 
     def run(self, config, ctx: SearchContext) -> list[dict]:
-        filter_str = self._build_filter(ctx.issns, ctx.from_year, ctx.to_year)
+        filter_str = self._build_filter(
+            ctx.issns, ctx.from_year, ctx.to_year,
+            getattr(config, "OPENALEX_WORK_TYPES", None),
+        )
 
         blocks: list[tuple[str, list[str]]] = []
         if getattr(config, "BLOCK_A_TERMS", None):
@@ -186,12 +189,24 @@ class OpenAlexSearch(SearchSource):
         return data
 
     def _build_filter(self, issns: list[str], from_year: int,
-                      to_year: int) -> str:
-        return (
-            f"primary_location.source.issn:{'|'.join(issns)},"
-            f"publication_year:{from_year}-{to_year},"
-            f"type:article"
-        )
+                      to_year: int,
+                      work_types: list[str] | tuple[str, ...] | None = None,
+                      ) -> str:
+        """OpenAlex `filter=` for the keyword stream.
+
+        `issns` may be empty: a humanities search is rarely journal-bound,
+        and an empty `primary_location.source.issn:` clause is a malformed
+        filter, so the clause is simply omitted. `work_types` defaults to
+        articles (the original behaviour); a humanities config passes
+        e.g. `("article", "book", "book-chapter")`.
+        """
+        types = "|".join(work_types) if work_types else "article"
+        parts = []
+        if issns:
+            parts.append(f"primary_location.source.issn:{'|'.join(issns)}")
+        parts.append(f"publication_year:{from_year}-{to_year}")
+        parts.append(f"type:{types}")
+        return ",".join(parts)
 
     def _fetch_all(self, query: str, filter_str: str,
                    ctx: SearchContext) -> list[dict]:

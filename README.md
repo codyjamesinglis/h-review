@@ -44,7 +44,7 @@ every commit against `windows-latest`.
 
 ## What's in the plugin
 
-Eleven user-invocable skills:
+Twelve user-invocable skills:
 
 | Skill | Mode | Purpose |
 |---|---|---|
@@ -53,6 +53,7 @@ Eleven user-invocable skills:
 | `manuscript-revision` | rule-book (eager) | Parallel-critic revision loop is the default revision protocol — delegates to `/critic-loop`. |
 | `academic-style` | rule-book (eager) | House-style conventions at drafting time — APA citations, voice, tense, hedging, synthesis-over-enumeration, terminology. |
 | `systematic-review` | procedure (explicit) | End-to-end SLR pipeline from search → screening → coding → export. |
+| `historiographical-survey` | procedure (explicit) | Map the scholarship on a thinker, text or debate: OpenAlex search and snowballing, triage, interpretive coding, positional synthesis. No PRISMA. |
 | `zotero-operations` | procedure (explicit) | Import, dedup, enrich, attach PDFs, maintain BBT keys. |
 | `fact-check` | procedure (explicit) | Verify citations and quantitative claims against sources. |
 | `critic-loop` | procedure (explicit) | Run 4 parallel critics (evidence / method / argument / expert) until no MAJOR issues remain. |

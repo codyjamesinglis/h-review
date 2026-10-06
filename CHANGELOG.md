@@ -29,6 +29,11 @@ of political thought and philosophy, and the theory of history.
 - Skills `reading-notes` (notes and quotations with locators, concept/thinker tags) and
   `editions-and-translations` (one Zotero item per edition, linked via Related). The wizard
   now registers the zotero-mcp `relations` toolset; existing installs must re-register.
+- Skill `historiographical-survey`; templates `survey_search_config.py` and
+  `survey_screening_config.py` (interpretive triage and coding fields: thesis, interlocutors,
+  primary sources, school or method). The screening and coding scripts are unchanged.
+- `searchers/openalex.py`: the ISSN filter is omitted when no journals are configured, and
+  `OPENALEX_WORK_TYPES` admits books and chapters (default remains articles).
 - `templates/chicago-notes-bibliography.csl` (CMOS 18, from the CSL style
   repository), `essay.qmd`, `essay_claude_md.md`.
 
