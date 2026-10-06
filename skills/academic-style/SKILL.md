@@ -1,112 +1,132 @@
 ---
 name: academic-style
-description: Use when drafting or editing academic prose — topic sentences, paragraph structure, APA-style citations, active voice, tense, hedging conventions, term definitions. Fires eagerly on any .qmd / .Rmd / .md / .tex file in an academic-research project. Do NOT use for the revision workflow — use `manuscript-revision` + `/critic-loop`. Do NOT use for factual or citation accuracy — use `grounded-citations` / `empirical-integrity` / `fact-check`.
+description: Use when drafting or editing humanities prose — intellectual history, history of political thought or philosophy, theory of history — in a .qmd / .Rmd / .md / .tex file. Covers Chicago notes-bibliography, footnote discipline, tense, quotation and translation, period terms, historiographical positioning. Do NOT use for the revision workflow — use `manuscript-revision` + `/critic-loop`. Do NOT use for citation sourcing or accuracy — use `grounded-citations` / `fact-check`.
 ---
 
-# Academic style
+# Academic style (humanities)
 
 > **No pre-flight, no bootstrap by design.** This is a doctrine
 > skill — pure prose conventions. It does not call MCPs, does not
 > install project scaffolds, and does not need `/setup` to have run.
-> The procedural skills (`zotero-operations`, `systematic-review`,
-> `fact-check`, `critic-loop`) gate themselves on
-> `check_configured.py`; this one stays out of the way.
+
+> *Adapted from the upstream `academic-style` skill in
+> mronkko/claude-academic-research, which targets quantitative empirical
+> writing (APA, IMRaD, causal hedging). Those rules are replaced here.*
 
 ## Core rule
 
-Academic prose follows a small set of conventions that the agent applies
-**during drafting**, not only at revision time. These are the rules the
-`critic-loop` argument critic checks later — but writing them in
-correctly the first time reduces how much the critic loop has to
-fix.
+Apply these conventions **during drafting**. The `critic-loop` argument
+critic checks them later; writing them in first reduces what it has to fix.
 
-This skill governs *style and conventions only*. It does not govern:
+This skill governs style only. Citation sourcing is
+`grounded-citations`; auditing a draft's claims is `fact-check`; the
+revision workflow is `manuscript-revision` + `critic-loop`.
 
-- Citation sourcing (Zotero-backed, consulted, claim-supporting) →
-  `grounded-citations` rule-book.
-- Quantitative claims (numbers from pipeline files) →
-  `empirical-integrity` rule-book.
-- When and how to revise a draft → `manuscript-revision` + the `critic-loop` skill.
+## Citations: Chicago notes-bibliography
 
-## Citations (APA-style)
+- Cite with a located key: `[@hobbes1651, p. 91]`. Pandoc renders it as a
+  footnote under `chicago-notes-bibliography.csl`; never hand-type
+  `Hobbes, Leviathan, 91` or add `^[…]` around a citation.
+- **Every citation has a locator** — `p.`, `pp.`, `chap.`, `bk.`, `§`,
+  line numbers, or the standard pagination of the text (Kant's `A51/B75`,
+  Aristotle's Bekker numbers, Plato's Stephanus numbers). A deliberate
+  whole-work reference is `[@key, passim]`. `test_citations.py` enforces this.
+- Commentary and citation share a footnote:
+  `^[Compare [@locke1689, bk. 2, §4].]`. Footnotes carry reference,
+  qualification and dissent with other scholars; argument that the case
+  depends on belongs in the text.
+- Naming an author and the date of a work in prose is fine
+  (*Hobbes's* Leviathan *(1651)*); the footnote carries the reference.
+  Do not use the parenthetical author-date form `(Skinner 1969)`.
+- Cite the **edition you read**, in the **language you read it**. A
+  translation is cited as the translation; give the original date
+  alongside when it matters to the argument.
+- Prefer primary sources over commentary for what a text says; prefer
+  scholarship for what a text meant to its first readers.
 
-Formatting only; sourcing is governed by `grounded-citations` — follow
-both. Format conventions:
+## Quotation, translation, original language
 
-- Inline: `[@key]` produces "(Smith, 2019)".
-- Parenthetical with multiple: `[@key1; @key2]` produces
-  "(Jones, 2020; Smith, 2019)".
-- Narrative: `@key [-@key]` produces "Smith (2019)" / "Smith's (2019)".
-- Three or more authors: render as `et al.` automatically via the
-  CSL; do not hand-type "et al.".
-- Cite the most specific pinpointable source. When a claim could come
-  from a review or from the primary paper, cite the primary.
+- Quote when the wording carries the argument; paraphrase otherwise. Do
+  not quote a sentence to make a point you could make in half the words.
+- Block quotation for roughly 100 words or more (Chicago).
+- Quote the original where the argument turns on a word (*potestas*,
+  *Geist*, *virtù*), with the translation in the text and the original in
+  the footnote, or the reverse; be consistent within a piece.
+- Say whose translation it is. If you changed it, write
+  `translation modified` in the footnote.
+- Italicise foreign terms on first use and gloss them once. Do not
+  translate a term silently and then use the translation as if it were the
+  author's own vocabulary.
 
 ## Voice and tense
 
-- **Active voice** where it strengthens clarity: *"We coded 1,243
-  papers"* over *"1,243 papers were coded"*. Passive is acceptable
-  when the actor is unknown or unimportant.
-- **Methods** in past tense (this study's actions): *"We ran a pilot
-  search against Scopus"*.
-- **Theory and established findings** in present (ongoing truth):
-  *"Self-efficacy predicts persistence"*.
-- **Discussion** is present when interpreting (*"Our findings
-  suggest"*) and past when describing what this study did (*"We
-  found"*).
+- **Argument and the text's content: present** — *"Hobbes argues that the
+  covenant binds only while the sovereign protects."*
+- **Historical events and reception: past** — *"The Leviathan was
+  condemned by Oxford in 1683."*
+- **First person** is acceptable in the humanities for the argument
+  (*"I argue"*, *"I will show"*). Prefer it to *"this paper argues"*.
+- Active voice where the agent matters, and in intellectual history it
+  usually does: name who argued, wrote, replied.
 
-## Hedging calibration
+## Hedging and interpretive claims
 
-Strong claims require strong evidence. Match hedging to design:
+Match the confidence of the sentence to the kind of evidence behind it.
 
-- **Cross-sectional** data warrants "associated with", "is correlated
-  with", "differs across" — never "predicts", "causes", or "leads to".
-- **Observational longitudinal** data without identification strategy
-  warrants "is longitudinally associated with" or "precedes" — still
-  not "causes".
-- **RCT / natural experiment / well-identified quasi-experiment**
-  warrants causal language.
-- Don't hedge findings the field considers well-established (this
-  signals false novelty). Don't over-claim findings that are novel.
+- **What a text says** can be stated flatly, with a locator.
+- **What an author meant or intended** is an inference: use *suggests*,
+  *seems to*, *I read this as* unless the author says so.
+- **Influence and reception** need documentary evidence (a citation, a
+  letter, a marginal note, ownership). Without it, write *resembles* or
+  *anticipates*, never *influenced* or *drew on*.
+- **Causal claims about ideas and events** deserve the most caution; say
+  what the evidence shows and what the claim depends on.
+- Do not hedge what the scholarly consensus holds firmly; do not
+  assert as settled what the field disputes — name the dispute.
 
-(The `critic-loop` method critic flags violations at revision time —
-writing to this standard up-front means the critic has less to catch.)
+## Historical discipline in prose
+
+- **Avoid anachronism.** Do not use a later category (*liberal*,
+  *the state*, *the individual*, *ideology*, *the Enlightenment*) as if
+  the author would have recognised it; if you use it as an analytic term,
+  say so on first use.
+- **Avoid teleology and "precursors".** Not *"anticipated Rawls"*, unless
+  the claim is about a later reader's reconstruction.
+- **Name the interlocutors.** Say who in the period the author was
+  arguing with. A text is a move in a debate; a paragraph that treats it as
+  a free-standing statement of doctrine is incomplete.
+- **Distinguish** the author's own words, the editor's, the translator's,
+  and your gloss.
 
 ## Structure
 
-- **Empirical papers**: IMRAD (Introduction, Methods, Results,
-  Discussion). Each section scope-checked against Introduction's
-  stated research question.
-- **Review papers**: **synthesis over enumeration**. The text must
-  analyse *across* cited studies, not march through them one at a
-  time. Long stretches of "Smith (2019) found X. Jones (2020) found
-  Y. Kim (2021) found Z." are a red flag — replace with thematic
-  prose that names patterns, tensions, or cumulative findings and
-  cites multiple papers per claim.
-- **Topic sentences** open paragraphs. **Signposting** at section
-  transitions (*"Having established X, we now turn to Y"*).
+- State **the question, the interlocutors and your claim** within the first
+  page. A historiographical position (what is contested, where you
+  stand) belongs there, not in a free-standing "literature review".
+- **Topic sentences** open paragraphs. **Signposting** at transitions.
+- **Synthesis over enumeration** applies to scholarship too: do not march
+  through *"A argues… B argues… C argues…"*. Group scholars by the
+  position they hold, say what divides them, and say where you stand.
+- Sections follow the argument, not a template; there is no mandatory
+  IMRaD.
 
-## Terms and acronyms
+## Terms
 
-- **Define terms** on first substantive use, not first mention.
-- **Expand acronyms** on first occurrence: *"better BibTeX (BBT)"*,
-  then `BBT` thereafter.
-- **Consistent terminology** throughout. Don't switch between "growth
-  aspirations", "growth intentions", and "growth motivation" for the
-  same construct without explaining the distinction.
+- **Define a term on first substantive use**, not first mention, in the
+  sense *your period's authors* used it, then say if you use it differently.
+- **Consistent terminology**; do not drift between *sovereignty*,
+  *supreme power* and *majesty* for the same concept without saying whether
+  the period distinguished them.
+- Expand abbreviations of editions and series on first use
+  (*Cambridge Texts in the History of Political Thought*, CTHPT).
 
 ## Red flags
 
-- You are writing "Smith (2019) found X. Jones (2020) found Y." chains
-  in a review paper — replace with thematic synthesis citing multiple
-  papers per claim.
-- You are hedging a finding the field considers well-established —
-  drop the hedge.
-- You are over-claiming from cross-sectional data ("predicts",
-  "causes") — switch to associational language.
-- You introduced an acronym without expanding it.
-- Terminology drift between sections — same construct, different
-  names.
-- You are using passive voice where the actor matters and is known.
-- You are adding an `et al.` by hand instead of relying on CSL
-  rendering from the BBT key.
+- A citation with no page or locator.
+- `(Author 1969)` author-date citations in a notes-bibliography project.
+- A quotation from a translation cited as if it were the original.
+- *"X influenced Y"* with no documentary evidence.
+- A modern category projected onto an earlier author with no warning.
+- A chain of *"A argues… B argues…"* paragraphs.
+- A foreign term used with no gloss, or silently translated.
+- Hand-typed `Hobbes, Leviathan, 91` instead of a `[@key, p. 91]`.

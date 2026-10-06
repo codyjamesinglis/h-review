@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — h-review fork
+
+Forked from [mronkko/claude-academic-research](https://github.com/mronkko/claude-academic-research)
+(MIT, Mikko Rönkkö) and re-oriented toward intellectual history, the history
+of political thought and philosophy, and the theory of history.
+
+### Changed
+
+- Plugin renamed `h-review`; marketplace `codyjamesinglis`. The config path
+  `~/.config/academic-research/` is unchanged on purpose.
+- `academic-style` rewritten for humanities prose (Chicago notes-bibliography,
+  quotation and translation, anachronism, interpretive hedging).
+- `grounded-citations`: fifth rule, locator and edition. `verifying-citations`
+  and `critic-loop`: locator checks, interpretive-attribution and
+  historical-method checklist (anachronism, the Skinnerian mythologies,
+  translation, influence claims).
+- `templates/test_citations.py`: `CITATION_STYLE` ("notes" default) with a
+  locator check.
+
+### Added
+
+- `templates/chicago-notes-bibliography.csl` (CMOS 18, from the CSL style
+  repository), `essay.qmd`, `essay_claude_md.md`.
+
 ## [0.23.2] — 2026-09-11
 
 ### Fixed

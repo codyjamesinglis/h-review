@@ -24,6 +24,37 @@ This skill is the single source of truth for citation-verification doctrine. `fa
 | **MAJOR** | The paper doesn't exist under that key; wrong paper for the key; direction reversal; fabricated quote; specific finding not supported by the source. Blocks publication. |
 | **UNVERIFIABLE** | Verification requires the full text and no PDF is attached to the Zotero item. The issue is access, not accuracy — recommend running `enrich_pdfs.py` to populate the library, or replacing the citation. Callers may map UNVERIFIABLE to MAJOR for their own report when the workflow can't ship an unresolved citation (e.g. inside `critic-loop`). |
 
+## Humanities register: books, chapters, interpretation
+
+In this project most citations are to books, chapters and editions, and
+most claims are interpretive. Three adjustments apply to the stages below.
+
+- **No abstract.** A book or chapter usually has none. Skip Stage B and
+  go straight to Stage C. A claim about *what a text says* is verified
+  only against the text, at the cited locator.
+- **Check the locator.** For every mention with a locator
+  (`[@key, p. 91]`), the quoted or paraphrased content must be found at
+  or near that page of the cited edition. Content that is present but on
+  another page is **MINOR** (fix the locator). Content absent from the
+  work is **MAJOR**. A locator that cannot be checked because the PDF
+  paginates differently from the cited edition is **UNVERIFIABLE**; say so.
+- **Interpretive attribution.** Distinguish *what the source says* from
+  *what the author argues it means*. A paraphrase that attributes to the
+  author a thesis the text only supports under a contested reading is
+  **MINOR** if the reading is defensible and the manuscript marks it as
+  a reading, **MAJOR** if it states it as the author's own claim.
+  *Influence* and *reception* claims need documentary evidence in the
+  cited source (a citation, a letter, a marginal note); resemblance is
+  not influence.
+- **Quotations and translations.** A quotation is checked verbatim. A
+  quotation from a translation is checked against the translation cited.
+  If the manuscript's wording differs from the cited translation and
+  does not say `translation modified`, classify **MAJOR**.
+- **Secondary citations.** A claim attributed to Hobbes but cited to a
+  commentator is checked against the commentator, and the manuscript
+  should say *quoted in* or cite the primary text. Flag as **MINOR**
+  otherwise.
+
 ## Staged verification rule
 
 ### Stage 0 — resolve the citation to a Zotero item
@@ -74,8 +105,9 @@ If `zotero_get_item_fulltext` returns no content (no PDF attached, OCR empty), c
 
 Skip Stage B and go straight to Stage C — the abstract cannot conclusively support these claim types regardless of how it reads:
 
-- **Quoted passages.** Abstracts paraphrase; verbatim text must be checked in the body.
-- **Specific statistics** cited from the paper (β, p, effect size, R², sample size). Abstracts rarely contain the exact numbers.
+- **Quoted passages.** Abstracts paraphrase; verbatim text must be checked in the body, at the cited locator.
+- **Claims about what a primary text says or about an author's intention.** The text itself, not an abstract.
+- **Specific statistics** (rare in this corpus) cited from the paper (β, p, effect size, R², sample size). Abstracts rarely contain the exact numbers.
 - **Method-detail claims** ("they used fixed effects", "2×2 ANOVA"). Methods sections, not abstracts.
 - **Subgroup / moderator / mediator findings.** Almost always in the results section, not the abstract.
 

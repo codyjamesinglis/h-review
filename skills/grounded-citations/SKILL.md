@@ -9,6 +9,12 @@ description: Use when inserting a new citation into academic prose, attributing 
 > [skills/_glossary.md](../_glossary.md) for one-line definitions of
 > every acronym this skill uses.
 
+> **Humanities register.** Sources in this project are mostly books,
+> chapters, editions, translations and archival material, not DOI-keyed
+> articles. The four rules below hold, and a fifth is added: every
+> citation names a **locator** in a **specific edition**. A DOI is
+> optional; an ISBN, a shelfmark or a URL is an acceptable identifier.
+
 > **Insertion vs verification.** This skill governs *inserting* a
 > citation during drafting — it can drop a claim if no source
 > supports it. The audit-time counterpart is `verifying-citations`
@@ -46,13 +52,16 @@ Then tell the user what was installed and flag that the top of
 
 ## Core rule
 
-Every citation the agent inserts into academic prose must satisfy **all four**
+Every citation the agent inserts into academic prose must satisfy **all five**
 of these requirements. They are conjunctive — failing any one means the
 citation may not be made.
 
-1. **In Zotero.** The paper is in the project's Zotero library. If not,
+1. **In Zotero.** The work is in the project's Zotero library. If not,
    add it via `mcp__zotero__zotero_add_item` (`source_type="doi"`, or
-   `"url"` when no DOI exists) before the citation is written.
+   `"url"` when no DOI exists, which is usual for books, chapters and
+   archival items) before the citation is written. Record the original
+   publication date in `Extra` (`original-date: 1651`) and the language
+   in the `Language` field.
 2. **BBT key.** The `[@citekey]` in prose is the Better BibTeX key fetched
    from Zotero via `mcp__zotero__zotero_get_item_metadata` with
    `format="bibtex"`. Never hand-craft keys (`Smith2019`-style); never
@@ -73,23 +82,35 @@ citation may not be made.
    **drop the claim**. Do not paper over; do not flag for later; do not
    keep a speculative citation. Remove it from prose, or replace the
    attribution with a source that does support the claim.
+5. **Locator and edition.** The citation is written `[@key, p. N]` (or
+   chapter, book, section, line, or the text's standard pagination:
+   Kant `A51/B75`, Bekker, Stephanus). The locator comes from the
+   consulted source, never from memory. If the passage was read in a
+   translation, cite the translation; if the Zotero item is a different
+   edition from the one you consulted, fix the item before citing, since
+   page numbers do not transfer between editions. A deliberate
+   whole-work reference is `[@key, passim]`.
 
 ## What counts as externalised consultation
 
 Ranked by strength:
 
 - **Zotero full-text** via `mcp__zotero__zotero_get_item_fulltext` — the
-  paper's own words, strongest grounding.
+  work's own words, strongest grounding. For scanned books the OCR may be
+  poor; check the passage against the page image before quoting it.
 - **Zotero child notes** via `mcp__zotero__zotero_get_notes` — durable,
   survives context compaction. Preferred when re-citing a paper multiple
   times across a long session.
 - **Fresh abstract** via `mcp__openalex__get_work`,
   `mcp__semantic-scholar__get-paper-abstract`, or
-  `mcp__zotero__zotero_get_item_metadata` — minimum acceptable.
+  `mcp__zotero__zotero_get_item_metadata` — minimum acceptable for an
+  *article's* general thesis. Books and chapters rarely have one, and an
+  abstract can never ground a quotation or a pinpoint claim.
 
-**Recommended pattern** for papers cited repeatedly: the first time
-the agent reads the paper, write a Zotero child note summarising the
-relevant passage via `mcp__zotero__zotero_manage_note` (`action="create"`). That note
+**Recommended pattern** for works cited repeatedly: the first time
+the agent reads the work, write a Zotero child note recording the
+relevant passage **with its page number** via
+`mcp__zotero__zotero_manage_note` (`action="create"`). That note
 becomes the durable consultation artifact for every subsequent citation
 — no re-fetch needed, no context-recall gamble.
 
@@ -136,9 +157,12 @@ mistake can't silently return.
   many turns ago — re-fetch the abstract or read the Zotero note.
 - The consulted content does not actually support the claim and you are
   keeping the claim anyway — **drop the claim**, don't paper over.
+- You are writing a citation with no page, or with a page you did not read in the cited edition.
+- You are citing a translation as if it were the original, or the reverse.
 - You are citing a paper based only on a title match in a search result,
   without having read its abstract.
 - OpenAlex and Semantic Scholar return conflicting metadata — resolve
   before citing.
 - A DOI search returns no result for a paper you "know" exists — do not
-  cite it.
+  cite it. (Books and chapters often have no DOI: look the work up by
+  ISBN or title before concluding it does not exist.)

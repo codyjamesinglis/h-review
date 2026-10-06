@@ -378,6 +378,15 @@ empirical-integrity skill). If a project-specific coded corpus exists (e.g.
 analysis/results/coded_papers.csv for SLRs), spot-check prose synthesis
 claims against coded entries.
 
+For a humanities manuscript, also check every citation's **locator**:
+`[@key, p. N]` must name a page (or chapter, section, standard
+pagination) that exists in the cited edition and contains the attributed
+content. Treat as [MAJOR]: a quotation that does not appear in the cited
+work; a locator pointing to content that is absent; a quotation from a
+translation presented without `translation modified` when the wording
+differs. Treat as [MINOR]: a correct claim with a wrong page; a secondary
+source cited for what a primary text says.
+
 Treat as [MAJOR]: prose number absent from or inconsistent with the
 authoritative results file. (Citation-specific MAJOR criteria — missing
 paper, direction reversal, fabricated quote, cross-mention inconsistency —
@@ -394,8 +403,10 @@ the sample size in the first ISSUES entry if spot-checking.
 ### method  *(default)*
 
 ```
-Your scope: methodological scrutiny — reviewer #2 energy. This lens applies
-to both empirical and review papers. You do NOT verify citations against
+Your scope: methodological scrutiny — reviewer #2 energy. For a manuscript
+in intellectual history, philosophy or the theory of history, apply the
+HISTORICAL-METHOD checklist below in place of the empirical-design checks;
+for an empirical or review paper, apply the empirical checks. You do NOT verify citations against
 sources (evidence critic's job), you do NOT evaluate prose quality (argument
 critic's job), and you do NOT flag missing seminal works from your training
 (expert critic's job).
@@ -414,6 +425,35 @@ Treat as MAJOR:
 
 Treat as MINOR: imprecise method descriptions, missing effect sizes,
 over-broad generalization, under-specified sample characteristics.
+
+HISTORICAL-METHOD checklist (humanities manuscripts):
+  - ANACHRONISM: a later category (liberal, the state, the individual,
+    ideology, the Enlightenment) attributed to an author who did not use
+    or could not have had it, with no marker that it is an analytic term.
+  - TELEOLOGY / WHIGGISM: an author treated as a precursor of a later
+    position, or ideas read as steps toward a present-day view.
+  - THE MYTHOLOGIES (Skinner): of doctrines (an author held to have said
+    what a canonical topic requires), of coherence (a system imposed on
+    scattered remarks), of prolepsis (meaning read from later
+    consequences), of parochialism (a familiar-sounding term assumed to
+    mean what it means now).
+  - CONTEXT: the manuscript says what the author was doing in writing the
+    text, and to whom, from period evidence, not only what the text says.
+  - INFLUENCE claims without documentary evidence (citation, letter,
+    ownership, marginalia); resemblance presented as influence.
+  - TRANSLATION: a conceptual argument resting on a translated word
+    without checking the original term; reliance on a single translation
+    where translations differ on the point at issue.
+  - EDITION and TEXT: the edition not named; a posthumous or edited
+    compilation (e.g. a *Nachlass*) treated as the author's finished work.
+  - SOURCE SELECTION: the corpus chosen so that it confirms the thesis;
+    counterevidence in the same period not addressed.
+  - For philosophy-of-history and theory pieces: a claim that is
+    reconstruction presented as exegesis, or the reverse.
+
+Treat as MAJOR: any of the above that carries the central argument.
+Treat as MINOR: the same in a supporting paragraph, or imprecision
+about edition or translation that does not change the claim.
 ```
 
 ### argument  *(default)*
@@ -433,10 +473,17 @@ Check:
   - Consistent terminology (e.g. don't switch between "growth intentions",
     "growth aspirations", and "growth motivation" for the same construct
     without explaining the distinction).
-  - SYNTHESIS over enumeration: for review papers, the text should analyze
-    *across* cited studies, not merely march through them one at a time.
-    Long stretches of "Smith (2019) found X. Jones (2020) found Y. Kim (2021)
-    found Z." are a MAJOR flag — replace with thematic synthesis that names
+  - HISTORIOGRAPHICAL POSITION (humanities): the introduction names the
+    scholarly debate, the interlocutors, and where the manuscript stands;
+    it does not merely list works. The argument is a claim that a named
+    scholar or school would dispute.
+  - FOOTNOTE DISCIPLINE: notes carry reference, qualification and dissent;
+    an argument the case depends on sits in the text, not in a note.
+  - SYNTHESIS over enumeration: for review papers and historiographical
+    passages, the text should analyze *across* cited works, not merely
+    march through them one at a time. Long stretches of "Smith (2019) found
+    X. Jones (2020) found Y. Kim (2021) found Z." (or "A argues... B
+    argues...") are a MAJOR flag — replace with thematic synthesis that names
     patterns, tensions, or cumulative findings and cites multiple papers per
     claim.
   - Scope coherence: does the manuscript address its stated research question
@@ -469,7 +516,14 @@ the field would expect to see?
 
 Check for:
   - Missing seminal works or foundational theories that any competent
-    reviewer would expect to see. Name specific authors and works.
+    reviewer would expect to see. Name specific authors and works. In the
+    humanities this includes primary texts the period's debate turned on,
+    standard critical editions, and the scholarly traditions that have
+    read the author (e.g. Cambridge contextualism, Begriffsgeschichte,
+    the Straussian and Marxist readings, analytic history of philosophy).
+  - Scholarship in other languages that the topic's specialists use
+    (e.g. German, French, Italian), where the manuscript cites only
+    English-language work.
   - Dated theoretical framings — does the review reflect the current state
     of the field or a textbook version from ten years ago? Is there a major
     recent development the manuscript misses?
