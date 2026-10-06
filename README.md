@@ -1,8 +1,6 @@
 # h-review
 
-Research plugin for Claude Code and Antigravity, adapted for intellectual history, the
-history of political thought, the history of philosophy, and the theory and philosophy of
-history: grounded citations, Zotero operations, and parallel-critic manuscript revision.
+Research plugin for Claude Code and Antigravity, adapted for the humanities: grounded citations, Zotero operations, and parallel-critic manuscript revision.
 
 > **Origin.** h-review is a fork of
 > [mronkko/claude-academic-research](https://github.com/mronkko/claude-academic-research)
