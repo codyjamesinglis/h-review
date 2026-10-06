@@ -44,7 +44,7 @@ every commit against `windows-latest`.
 
 ## What's in the plugin
 
-Nine user-invocable skills:
+Eleven user-invocable skills:
 
 | Skill | Mode | Purpose |
 |---|---|---|
@@ -56,6 +56,8 @@ Nine user-invocable skills:
 | `zotero-operations` | procedure (explicit) | Import, dedup, enrich, attach PDFs, maintain BBT keys. |
 | `fact-check` | procedure (explicit) | Verify citations and quantitative claims against sources. |
 | `critic-loop` | procedure (explicit) | Run 4 parallel critics (evidence / method / argument / expert) until no MAJOR issues remain. |
+| `reading-notes` | procedure (explicit) | Zotero child notes and quotations with locators from the edition read; concept and thinker tags. |
+| `editions-and-translations` | procedure (explicit) | One Zotero item per edition or translation, linked by Related; original date, language, translator. |
 | `setup` | procedure (explicit) | Chat-driven configuration wizard for first-time install. |
 
 Plus one sub-skill, `verifying-citations` — not invoked directly by

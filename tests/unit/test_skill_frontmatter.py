@@ -19,6 +19,8 @@ EXPECTED_SKILLS = {
     "critic-loop",
     "setup",
     "cluster-screening",
+    "reading-notes",
+    "editions-and-translations",
 }
 
 FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)

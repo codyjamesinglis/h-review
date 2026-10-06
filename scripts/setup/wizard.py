@@ -892,7 +892,7 @@ EXPECTED_MCP: tuple[McpServerSpec, ...] = (
         name="zotero",
         purpose="Reference manager — full-text retrieval, notes, citation keys.",
         add_args=("-s", "user", "zotero",
-                  "-e", "ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,scite",
+                  "-e", "ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,relations,scite",
                   "--", "zotero-mcp"),
         homepage="https://github.com/mronkko/zotero-mcp",
         install_cmd=ZOTERO_MCP_INSTALL_CMD,
@@ -901,7 +901,7 @@ EXPECTED_MCP: tuple[McpServerSpec, ...] = (
                      "zotero-operations skills run; semantic enables semantic "
                      "library search. After install, run: zotero-mcp setup. "
                      f"PyPI alt: {ZOTERO_MCP_PIP_INSTALL_CMD}. "
-                     "ZOTERO_MCP_TOOLSETS above adds duplicates/scite to the "
+                     "ZOTERO_MCP_TOOLSETS above adds duplicates/relations/scite to the "
                      "package's own default profile (libraries, search-admin, "
                      "pdf-geometry) — dropping the env var narrows back to just "
                      "those three.",

@@ -26,6 +26,9 @@ of political thought and philosophy, and the theory of history.
 
 ### Added
 
+- Skills `reading-notes` (notes and quotations with locators, concept/thinker tags) and
+  `editions-and-translations` (one Zotero item per edition, linked via Related). The wizard
+  now registers the zotero-mcp `relations` toolset; existing installs must re-register.
 - `templates/chicago-notes-bibliography.csl` (CMOS 18, from the CSL style
   repository), `essay.qmd`, `essay_claude_md.md`.
 

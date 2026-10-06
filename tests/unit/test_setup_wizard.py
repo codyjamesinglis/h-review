@@ -481,7 +481,7 @@ def test_offer_register_mcp_runs_claude_mcp_add(monkeypatch) -> None:
     zotero_call = next(c for c in add_calls if "zotero" in c)
     assert zotero_call == [
         "claude", "mcp", "add", "-s", "user", "zotero",
-        "-e", "ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,scite",
+        "-e", "ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,relations,scite",
         "--", "zotero-mcp",
     ]
     assert all(updated[s.name] == mod.MCP_STATUS_CONNECTED for s in mod.EXPECTED_MCP)
@@ -608,7 +608,7 @@ def test_format_register_command_is_copy_pasteable() -> None:
     cmd = mod._format_register_command(zotero)
     assert cmd == (
         "claude mcp add -s user zotero "
-        "-e ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,scite "
+        "-e ZOTERO_MCP_TOOLSETS=libraries,search-admin,pdf-geometry,duplicates,relations,scite "
         "-- zotero-mcp"
     )
 
@@ -624,7 +624,7 @@ def test_mcp_spec_to_agy_entry_simple_command() -> None:
     assert mod._mcp_spec_to_agy_entry(zotero) == {
         "command": "zotero-mcp", "args": [],
         "env": {
-            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,scite",
+            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,relations,scite",
         },
     }
 
@@ -753,7 +753,7 @@ def test_offer_register_agy_mcp_writes_config(monkeypatch, tmp_path) -> None:
     assert written["mcpServers"]["zotero"] == {
         "command": "zotero-mcp", "args": [],
         "env": {
-            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,scite",
+            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,relations,scite",
         },
     }
     assert written["mcpServers"]["semantic-scholar"] == {
@@ -817,7 +817,7 @@ def test_offer_register_agy_mcp_preserves_unrelated_entries(monkeypatch, tmp_pat
     assert written["mcpServers"]["zotero"] == {
         "command": "zotero-mcp", "args": [],
         "env": {
-            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,scite",
+            "ZOTERO_MCP_TOOLSETS": "libraries,search-admin,pdf-geometry,duplicates,relations,scite",
         },
     }
 

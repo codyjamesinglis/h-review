@@ -107,7 +107,7 @@ Ranked by strength:
   *article's* general thesis. Books and chapters rarely have one, and an
   abstract can never ground a quotation or a pinpoint claim.
 
-**Recommended pattern** for works cited repeatedly: the first time
+**Recommended pattern** for works cited repeatedly (format in `reading-notes`; edition handling in `editions-and-translations`): the first time
 the agent reads the work, write a Zotero child note recording the
 relevant passage **with its page number** via
 `mcp__zotero__zotero_manage_note` (`action="create"`). That note
