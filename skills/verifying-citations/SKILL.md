@@ -50,6 +50,11 @@ most claims are interpretive. Three adjustments apply to the stages below.
   quotation from a translation is checked against the translation cited.
   If the manuscript's wording differs from the cited translation and
   does not say `translation modified`, classify **MAJOR**.
+- **Other languages.** A quotation in a language the agent cannot read
+  with confidence (see `multilingual-sources`) is **UNVERIFIABLE**, never
+  VERIFIED: say which passage needs the user's eye. A quotation is
+  checked in the original language; a translation attributed to a
+  published translator is checked against that translation.
 - **Secondary citations.** A claim attributed to Hobbes but cited to a
   commentator is checked against the commentator, and the manuscript
   should say *quoted in* or cite the primary text. Flag as **MINOR**

@@ -32,6 +32,9 @@ of political thought and philosophy, and the theory of history.
 - Skill `historiographical-survey`; templates `survey_search_config.py` and
   `survey_screening_config.py` (interpretive triage and coding fields: thesis, interlocutors,
   primary sources, school or method). The screening and coding scripts are unchanged.
+- Skill `multilingual-sources`; `TERMS_BY_LANGUAGE` in the search config (one query per language,
+  labelled `block_a:de`, validated against `languages.py`); `probe_terms.py` counts OpenAlex hits
+  per term; survey prompts judge works in their own language and flag machine translations.
 - Searchers `crossref` and `openlibrary` (keyless, opt-in via `--databases`) for books and
   chapters; search rows gain `isbn`, `publisher`, `language`, imported to Zotero, and dedup merges
   on ISBN. `book_lookup.py` looks up a book by ISBN or title. Not built, with reasons in

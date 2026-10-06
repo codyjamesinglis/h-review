@@ -71,9 +71,21 @@ from searchers import (  # noqa: E402
 
 
 def _load_config(path: str):
-    return screening_common.load_config_module(
+    cfg = screening_common.load_config_module(
         path, "search_config", required=("FROM_YEAR", "TO_YEAR", "JOURNALS"),
     )
+    # A multilingual config is validated before any request is made: an
+    # unknown tag or a Cyrillic term under a Latin tag would otherwise
+    # surface as an empty result set, indistinguishable from "no
+    # literature in that language".
+    if getattr(cfg, "TERMS_BY_LANGUAGE", None):
+        import languages
+
+        problems = languages.validate_terms_by_language(cfg.TERMS_BY_LANGUAGE)
+        if problems:
+            sys.exit("ERROR: TERMS_BY_LANGUAGE in " + path + ":\n  "
+                     + "\n  ".join(problems))
+    return cfg
 
 
 def _title_author_key(title: str, authors: str) -> str:

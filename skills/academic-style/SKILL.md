@@ -52,6 +52,9 @@ revision workflow is `manuscript-revision` + `critic-loop`.
 - Quote the original where the argument turns on a word (*potestas*,
   *Geist*, *virtù*), with the translation in the text and the original in
   the footnote, or the reverse; be consistent within a piece.
+- Say whose translation it is: `translation Tuck`, `translation mine`. A
+  model-drafted translation is never `translation mine` until you have
+  made it yours (`multilingual-sources`).
 - Say whose translation it is. If you changed it, write
   `translation modified` in the footnote.
 - Italicise foreign terms on first use and gloss them once. Do not

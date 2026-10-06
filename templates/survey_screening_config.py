@@ -40,7 +40,10 @@ question:
 **<INSERT YOUR RESEARCH QUESTION HERE>**
 
 Period: <e.g. 1500-1700>. Texts, authors or debates in scope: <list>. \
-Languages: <list>.
+Languages: the title and abstract may be in any of <e.g. English, German, \
+Hungarian, Slovenian, Russian, French>. Judge the work in its own language. \
+Do not exclude a work because of its language, or because its abstract is \
+not in English. Write the REASON in English.
 
 A work is relevant if it does at least one of:
 
@@ -143,7 +146,8 @@ FULLTEXT_CODING_FIELDS = [
     },
     {
         "name": "language_and_translation",
-        "description": "The language of the work and the languages and "
+        "description": "The language of the work (give the ISO tag, e.g. 'hu') "
+                       "and the languages and "
                        "translations of the primary sources it uses, e.g. "
                        "'English; Latin and French originals, own "
                        "translations'.",
@@ -199,6 +203,9 @@ if exclude.
 - Extract from the body of the work, not from the abstract.
 - Report what the work says, not what you think of it. Where you infer \
 (the school, the context), say so.
+- Write the fields in English, but quote in the work's own language where a \
+field asks for quotation, and never translate a quotation silently: if you \
+add a translation, label it "[machine translation]".
 - Quote exactly where a field asks for quotation, and give page numbers \
 from the text's own pagination. If page numbers are not visible, say \
 "page not visible"; never invent one.

@@ -12,7 +12,13 @@ import time
 
 import http_client
 
-from .base import DISCOVERY_CITATION, SearchContext, SearchSource, empty_row
+from .base import (
+    DISCOVERY_CITATION,
+    SearchContext,
+    SearchSource,
+    empty_row,
+    term_groups,
+)
 
 PER_PAGE = 200           # OpenAlex max
 RATE_LIMIT_SLEEP = 0.2   # polite pool delay between requests
@@ -53,11 +59,7 @@ class OpenAlexSearch(SearchSource):
             getattr(config, "OPENALEX_WORK_TYPES", None),
         )
 
-        blocks: list[tuple[str, list[str]]] = []
-        if getattr(config, "BLOCK_A_TERMS", None):
-            blocks.append(("block_a", config.BLOCK_A_TERMS))
-        if getattr(config, "BLOCK_B_TERMS", None):
-            blocks.append(("block_b", config.BLOCK_B_TERMS))
+        blocks = [*term_groups(config, "a"), *term_groups(config, "b")]
         if not blocks:
             return []  # nothing to search
 

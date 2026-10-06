@@ -19,7 +19,7 @@ import re
 
 import http_client
 
-from .base import SearchContext, SearchSource, empty_row
+from .base import SearchContext, SearchSource, empty_row, term_groups
 
 API = "https://api.crossref.org/works"
 PAGE_SIZE = 100
@@ -77,11 +77,7 @@ class CrossrefSearch(SearchSource):
     default_enabled = False   # opt in with --databases
 
     def run(self, config, ctx: SearchContext) -> list[dict]:
-        blocks = []
-        if getattr(config, "BLOCK_A_TERMS", None):
-            blocks.append(("block_a", config.BLOCK_A_TERMS))
-        if getattr(config, "BLOCK_B_TERMS", None):
-            blocks.append(("block_b", config.BLOCK_B_TERMS))
+        blocks = [*term_groups(config, "a"), *term_groups(config, "b")]
         if not blocks:
             return []
         types = getattr(config, "CROSSREF_WORK_TYPES", None) or DEFAULT_TYPES

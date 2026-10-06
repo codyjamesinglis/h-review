@@ -28,6 +28,8 @@ of included studies.
   cluster runs, and the "no improvised pipeline code" rule. Where it
   speaks of PRISMA counts, screening reliability or `test_systematic_review.py`,
   those do not apply here.
+- `multilingual-sources`: translating search terms, probing them, non-English
+  screening, quoting originals.
 - `reading-notes`, `editions-and-translations`: for the primary texts and for
   books, which this pipeline does not code.
 - `zotero-operations`: adding works by hand, merging duplicates.
@@ -129,5 +131,6 @@ the edition the user read, then add it with `editions-and-translations`.
 - A book sent through `fulltext_code.py`.
 - A claim about a scholar's argument written from a coded field without
   reading the work.
-- Scholarship in one language only, unstated.
+- Scholarship in one language only, unstated. Search terms translated by the
+  agent and never shown to the user or probed.
 - Stopping at a fixed number of works rather than at saturation.

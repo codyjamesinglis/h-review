@@ -34,16 +34,32 @@ CROSSREF_WORK_TYPES = ("journal-article", "book", "monograph", "edited-book", "b
 
 QUERY_DEFS: list = []     # Scopus/WoS queries: leave empty if you have no access.
 
-# OpenAlex runs the two blocks as separate searches and merges them.
+# Search terms, per language. Each language is searched as its own query,
+# labelled `block_a:de`, `block_b:hu`, ..., so every record says which
+# vocabulary found it and a translation that finds nothing is visible.
 # Block A: the author, text or concept; block B: the angle.
-BLOCK_A_TERMS = [
-    "Hobbes",
-    "Leviathan",
-]
-BLOCK_B_TERMS = [
-    "sovereignty",
-    "political obligation",
-]
+#
+# THESE ARE EXAMPLE DRAFTS, NOT A VERIFIED GLOSSARY. A translated term is a
+# guess about what the literature calls the thing; check each one with
+#     uv run ${CLAUDE_PLUGIN_ROOT}/scripts/pipelines/probe_terms.py --config ./search_config.py
+# and with a reader of that language, then edit. Recognised tags:
+# scripts/pipelines/languages.py (en de hu hr sr-Latn sr-Cyrl bs sh sl pl
+# cs sk ro uk ru it fr la grc). Terms may be inflected forms (Hungarian,
+# Slovak, Slovenian...), alternates, or transliterations: list as many as
+# the literature uses. Cyrillic terms go under Cyrillic tags (`sr-Cyrl`,
+# `uk`, `ru`); a Latin-script Serbian title is found only by `sr-Latn`.
+TERMS_BY_LANGUAGE = {
+    "en": {"a": ["Hobbes", "Leviathan"], "b": ["sovereignty", "political obligation"]},
+    "de": {"a": ["Hobbes", "Leviathan"], "b": ["Souveränität"]},
+    "hu": {"a": ["Hobbes", "Leviatán"], "b": ["szuverenitás"]},
+    "sl": {"a": ["Hobbes", "Leviathan"], "b": ["suverenost"]},
+    "ru": {"a": ["Гоббс", "Левиафан"], "b": ["суверенитет"]},
+    "fr": {"a": ["Hobbes", "Léviathan"], "b": ["souveraineté"]},
+    "it": {"a": ["Hobbes", "Leviatano"], "b": ["sovranità"]},
+}
+
+# `BLOCK_A_TERMS` / `BLOCK_B_TERMS` are ignored when TERMS_BY_LANGUAGE is set.
+
 
 # Forward snowballing: every work citing these DOIs. The strongest stream for
 # intellectual history, since the key studies of a thinker are cited by

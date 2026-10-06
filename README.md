@@ -44,7 +44,7 @@ every commit against `windows-latest`.
 
 ## What's in the plugin
 
-Twelve user-invocable skills:
+Thirteen user-invocable skills:
 
 | Skill | Mode | Purpose |
 |---|---|---|
@@ -54,6 +54,7 @@ Twelve user-invocable skills:
 | `academic-style` | rule-book (eager) | House-style conventions at drafting time — APA citations, voice, tense, hedging, synthesis-over-enumeration, terminology. |
 | `systematic-review` | procedure (explicit) | End-to-end SLR pipeline from search → screening → coding → export. |
 | `historiographical-survey` | procedure (explicit) | Map the scholarship on a thinker, text or debate: OpenAlex search and snowballing, triage, interpretive coding, positional synthesis. No PRISMA. |
+| `multilingual-sources` | procedure (explicit) | Search terms per language, probed against OpenAlex; non-English screening; quoting originals; machine translations flagged. |
 | `zotero-operations` | procedure (explicit) | Import, dedup, enrich, attach PDFs, maintain BBT keys. |
 | `fact-check` | procedure (explicit) | Verify citations and quantitative claims against sources. |
 | `critic-loop` | procedure (explicit) | Run 4 parallel critics (evidence / method / argument / expert) until no MAJOR issues remain. |

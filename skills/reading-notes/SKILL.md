@@ -87,6 +87,8 @@ Begin with the heading `Quotations`. One entry per passage:
 
 ## Reading in another language
 
+See `multilingual-sources` for the language-specific cautions. In short:
+
 Take the note in English or your working language, but quote the original
 and give the original term beside your gloss. Say which translation, if
 any, you consulted for the passage, and where you departed from it.

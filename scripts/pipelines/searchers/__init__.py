@@ -24,6 +24,7 @@ from .base import (
     SearchSource,
     empty_row,
     resolve_credential,
+    term_groups,
 )
 from .crossref import CrossrefSearch
 from .openalex import OpenAlexSearch
@@ -54,6 +55,7 @@ __all__ = (
     "SearchSource",
     "empty_row",
     "resolve_credential",
+    "term_groups",
     "CrossrefSearch",
     "OpenAlexSearch",
     "OpenLibrarySearch",

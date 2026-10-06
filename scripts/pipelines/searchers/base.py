@@ -19,6 +19,7 @@ from __future__ import annotations
 import html
 import os
 import re
+import unicodedata
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
@@ -140,6 +141,35 @@ CROSSREF_TYPES = (
     "dissertation",
     "posted-content",
 )
+
+
+def term_groups(config, block: str) -> list[tuple[str, list[str]]]:
+    """The query groups for block `"a"` or `"b"`: `[(label, terms), ...]`.
+
+    A config that declares `TERMS_BY_LANGUAGE` (`{"de": {"a": [...],
+    "b": [...]}, ...}`) yields one group per language, labelled
+    `block_a:de`, so every record's `query` column (and the Zotero
+    `search:` tag) says which language's vocabulary found it, and a
+    translation that finds nothing shows up as an empty group instead of
+    being diluted in one mixed-language query. Without it, the single
+    `BLOCK_A_TERMS` / `BLOCK_B_TERMS` list is one group, exactly as
+    before. Terms are NFC-normalised: macOS paths and copy-pasted
+    Cyrillic and Hungarian text arrive decomposed, and a decomposed
+    "ő" does not match a precomposed one.
+    """
+    by_lang = getattr(config, "TERMS_BY_LANGUAGE", None)
+    if by_lang:
+        groups = []
+        for lang, blocks in by_lang.items():
+            terms = [
+                unicodedata.normalize("NFC", t.strip())
+                for t in (blocks.get(block) or []) if t and t.strip()
+            ]
+            if terms:
+                groups.append((f"block_{block}:{lang}", terms))
+        return groups
+    terms = getattr(config, f"BLOCK_{block.upper()}_TERMS", None) or []
+    return [(f"block_{block}", list(terms))] if terms else []
 
 
 def empty_row() -> dict:

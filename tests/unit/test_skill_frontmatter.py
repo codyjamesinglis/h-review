@@ -22,6 +22,7 @@ EXPECTED_SKILLS = {
     "reading-notes",
     "editions-and-translations",
     "historiographical-survey",
+    "multilingual-sources",
 }
 
 FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
