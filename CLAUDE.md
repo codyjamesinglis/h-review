@@ -6,6 +6,17 @@ Deferred development ideas — things consciously not done yet but worth revisit
 
 ## What this repo is
 
+**h-review is a fork** of [mronkko/claude-academic-research](https://github.com/mronkko/claude-academic-research) (MIT, Mikko Rönkkö; `upstream` remote), re-oriented toward intellectual history, the history of political thought and philosophy, and the theory of history. Keep that credit in the README, manifests and changelog. What changed, and what did not:
+
+- **Humanities register:** `academic-style` (Chicago notes-bibliography, interpretive hedging, anachronism), `grounded-citations` (locator and edition rule), `verifying-citations`, and the `critic-loop` critics (historical-method checklist) are rewritten for humanities prose. Citations are `[@key, p. N]`; `templates/test_citations.py` has `CITATION_STYLE = "notes"` and fails a citation with no locator.
+- **New skills:** `reading-notes`, `editions-and-translations` (one Zotero item per edition, linked by Related; needs zotero-mcp's `relations` toolset, which the wizard now registers), `historiographical-survey`, `multilingual-sources`.
+- **Pipeline kept, reconfigured:** the screening and coding scripts are unchanged. `templates/survey_screening_config.py` and `survey_search_config.py` are the humanities configs; install them over `screening_config.py` / `search_config.py`. `systematic-review` remains for quantitative reviews. Do not delete the SR code: merging `upstream` stays easy only if it is untouched.
+- **Sources:** `searchers/crossref.py` and `openlibrary.py` (keyless, opt-in via `--databases`; `default_enabled = False` so SLR runs are unchanged), `book_lookup.py`, `TERMS_BY_LANGUAGE` with `languages.py` and `probe_terms.py`. Deferred with reasons: PhilPapers, JSTOR, Project MUSE, WorldCat — see BACKLOG.md.
+- **Not renamed on purpose:** the config path `~/.config/academic-research/` and internal strings, so existing setups keep working.
+- **Untouched upstream-shaped files:** `templates/manuscript.qmd` (APA, PRISMA), `sr_claude_md.md`, `test_systematic_review.py`. The humanities equivalents are `essay.qmd` and `essay_claude_md.md`.
+- **Agent translations are drafts.** Never let one into a manuscript or search config unreviewed; see `multilingual-sources`.
+
+
 An academic research **plugin** for Claude Code and Antigravity — not an application. It ships skills (prose rule-books), pipeline scripts, and templates for academic-research workflows. Claude Code users install via `/plugin marketplace add mronkko/claude-academic-research`, while Antigravity users install via `agy plugin install <url>`. Anything you change here is consumed by downstream agentic instances in user projects.
 
 **This is primarily a personal-use project.** The author is the main user, and that changes the working norm: commit to `main` directly, and accept that `main` may be temporarily broken. A red `main` here is not an incident — do not revert someone else's commit to green it, do not open a branch purely to avoid breaking it, and do not stop mid-task to stabilise something you were not asked to touch. Fix forward. The one cost worth knowing is that CI (`ruff check scripts tests` then `pytest tests -v`, lint a hard gate) goes red on push and stays red until the next commit, so run both locally when it is cheap; that is courtesy to the next session, not a gate you must pass before committing.
