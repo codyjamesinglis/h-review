@@ -90,7 +90,9 @@ def _title_author_key(title: str, authors: str) -> str:
 #: differ in what they populate — Semantic Scholar has no issue number,
 #: OpenAlex has no page range for some records — and dedup used to
 #: throw the complement away with the duplicate.
-_MERGEABLE_FIELDS = ("abstract", "volume", "issue", "pages", "type")
+_MERGEABLE_FIELDS = (
+    "abstract", "volume", "issue", "pages", "type", "isbn", "publisher", "language",
+)
 
 
 def _has_comma_authors(authors: str) -> bool:
@@ -151,15 +153,30 @@ def _dedup(rows: list[dict]) -> tuple[list[dict], int]:
         if tk:
             title_to_doi[tk] = doi
 
+    isbn_to_doi: dict[str, str] = {
+        r["isbn"]: doi for doi, r in by_doi.items() if r.get("isbn")
+    }
+
     unresolved: list[dict] = []
+    seen_isbn: dict[str, dict] = {}
     merged = 0
     for r in no_doi:
         tk = _title_author_key(r.get("title", ""), r.get("authors", ""))
+        isbn = (r.get("isbn") or "").strip()
         if tk and tk in title_to_doi:
             _merge_row(by_doi[title_to_doi[tk]], r)
             merged += 1
+        elif isbn and isbn in isbn_to_doi:
+            _merge_row(by_doi[isbn_to_doi[isbn]], r)
+            merged += 1
+        elif isbn and isbn in seen_isbn:
+            # Two catalogue records for one book, neither with a DOI.
+            _merge_row(seen_isbn[isbn], r)
+            merged += 1
         else:
             unresolved.append(r)
+            if isbn:
+                seen_isbn[isbn] = r
     return list(by_doi.values()) + unresolved, merged
 
 
@@ -392,9 +409,11 @@ def main() -> int:
             sys.exit(f"ERROR: unknown database(s): {unknown}. "
                      f"Available: {list(registry)}")
     else:
-        # Default: every source where credentials_error() returns None
+        # Default: every default-enabled source where credentials_error()
+        # returns None. Keyless book sources are opt-in by name.
         selected = [name for name, src in registry.items()
-                    if src.credentials_error(ctx) is None]
+                    if getattr(src, "default_enabled", True)
+                    and src.credentials_error(ctx) is None]
         if not selected:
             sys.exit("ERROR: no database has usable credentials. Check the "
                      "wizard set-up or pass --databases explicitly.")

@@ -51,14 +51,22 @@ of included studies.
    standard handbook or companion. Add their DOIs to `CITATION_SEEDS`.
    For works without a DOI, add them to Zotero by hand
    (`zotero-operations`) and note them for the snowball by title.
-4. **Search** with OpenAlex only unless the user has Scopus or Web of
-   Science keys:
+4. **Search.** The keyless sources need no setup; name them with
+   `--databases`, since Crossref and Open Library are opt-in:
    ```bash
    uv run "${CLAUDE_PLUGIN_ROOT:-.}/scripts/pipelines/search.py" \
-       --config ./search_config.py --databases openalex
+       --config ./search_config.py --databases openalex,crossref,openlibrary
    ```
-   `OPENALEX_WORK_TYPES` in the config admits books and chapters. Use
-   `--streams citation` to run the snowball alone.
+   - **OpenAlex**: broad, with abstracts and the citation graph;
+     `OPENALEX_WORK_TYPES` admits books and chapters.
+   - **Crossref**: DOI-bearing books and chapters from the university
+     presses, with ISBN and publisher. It lists a book's chapters as
+     separate records, so expect several hits per book.
+   - **Open Library**: catalogue records for books and older editions,
+     no DOI, one hit per work with its ISBNs.
+   Rows for the same book from different sources are merged on DOI,
+   title and author, or ISBN. Use `--streams citation` to run the
+   snowball alone (OpenAlex and Semantic Scholar only).
 5. **Import and enrich** (`import_to_zotero.py`, `enrich_abstracts.py`,
    `enrich_pdfs.py`), as in `systematic-review`.
 6. **Triage on abstract** (`abstract_screen.py`). Expect many `borderline`:
@@ -90,14 +98,28 @@ of included studies.
 
 ## Limits to tell the user
 
-- **OpenAlex under-covers books, older monographs and non-English
-  scholarship**, and works with no DOI are not carried through the
-  import pipeline. Phase 5 of this fork adds Crossref and book-catalogue
-  lookups; until then, add books by hand.
+- **No single source covers the field.** OpenAlex under-covers books and
+  non-English scholarship; Crossref covers only DOI-registered works; Open
+  Library is a library catalogue and says nothing about content. Works
+  with no DOI do import (from the search row alone), with thinner
+  metadata. JSTOR, Project MUSE, PhilPapers and WorldCat are not
+  searched (see `BACKLOG.md`); add what they hold by hand.
+- To add one known book, use `book_lookup.py` (below) rather than a search.
 - LLM coding of `school_or_method` is a judgement. Spot-check a sample
   against the works before relying on the distribution.
 - The tools do not remove the need to know the field. Ask the user to
   review the includes against what they know is missing.
+
+## Looking up one book
+
+```bash
+uv run "${CLAUDE_PLUGIN_ROOT:-.}/scripts/pipelines/book_lookup.py" --isbn 978-0-14-043195-7
+uv run "${CLAUDE_PLUGIN_ROOT:-.}/scripts/pipelines/book_lookup.py" --title Leviathan --author Hobbes
+```
+
+It prints candidates from Crossref and Open Library as JSON and writes
+nothing. An ISBN with a bad check digit is refused. Choose the record for
+the edition the user read, then add it with `editions-and-translations`.
 
 ## Red flags
 

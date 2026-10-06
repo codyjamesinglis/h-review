@@ -22,6 +22,40 @@ directory — not checked in because it references machine-local paths).
 
 ---
 
+## Open — h-review fork: humanities sources not yet built (2026-10)
+
+Deferred during Phase 5 of the humanities adaptation. Each was looked at,
+not guessed at.
+
+- **PhilPapers / PhilArchive searcher.** *Why deferred:* the public JSON API
+  (`philpapers.org/help/api/json.html`) documents a category-taxonomy feed
+  only, no keyword search; article feeds are provided "on contact", and the
+  terms "severely restrict redistribution". *What it would take:* write to
+  PhilPapers for a feed, or read OpenAlex for PhilArchive-hosted preprints
+  (`primary_location.source` of PhilArchive). *Files:* `searchers/`.
+- **JSTOR and Project MUSE.** *Why deferred:* neither offers an open search
+  API. JSTOR's Constellate text-mining service was announced to sunset
+  1 July 2025 (per library notices; not re-verified). Both publish DOIs, so
+  *metadata* already arrives through Crossref and OpenAlex; what is missing
+  is full-text retrieval. *What it would take:* browser handlers under
+  `fetchers/browser/` plus the library resolver, which need institutional
+  access to build and a `live_browser` test each (the coverage guard
+  requires one). Not buildable without that access.
+- **WorldCat / OCLC.** Needs a WSKey tied to institutional membership; the
+  user has none. `book_lookup.py` and the Open Library searcher cover ISBN
+  and edition records meanwhile.
+- **HathiTrust and Library of Congress.** HathiTrust's Bib API is lookup by
+  identifier, not search, so it suits a "is there a public-domain scan of
+  this ISBN/OCLC number?" step in `book_lookup.py` rather than a searcher.
+  Library of Congress (`loc.gov` JSON) would add US catalogue records.
+- **Crossref `language`.** Not an allowed `select` field (the API returns a
+  400, found by the live test), so Crossref rows carry no language; Open
+  Library rows do.
+- **Original-language scholarship.** No source here filters or ranks by
+  language; a search for German-language work needs terms in German.
+
+---
+
 ## Open — four reports from the AI-literature-review study (2026-09-06)
 
 Filed by that project's user via its session after the 0.22.0 / 0.23.0

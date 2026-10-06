@@ -6,10 +6,11 @@ The humanities counterpart of `search_config.py`. Install it as
     python3 ${CLAUDE_PLUGIN_ROOT}/scripts/setup/install_templates.py \\
         survey_search_config.py:search_config.py
 
-Run OpenAlex only (no Scopus/WoS subscription needed):
+Run the keyless sources (no Scopus/WoS subscription needed). Crossref and
+Open Library are opt-in, so name them:
 
     uv run ${CLAUDE_PLUGIN_ROOT}/scripts/pipelines/search.py \\
-        --config ./search_config.py --databases openalex
+        --config ./search_config.py --databases openalex,crossref,openlibrary
 
 Differences from the SLR config: no journal list (a survey in intellectual
 history is rarely journal-bound), books and chapters are searched as well as
@@ -27,6 +28,9 @@ JOURNALS: dict = {}
 
 # What OpenAlex should return. Default for the SLR pipeline is articles only.
 OPENALEX_WORK_TYPES = ("article", "book", "book-chapter")
+
+# What Crossref should return, in Crossref's own type names.
+CROSSREF_WORK_TYPES = ("journal-article", "book", "monograph", "edited-book", "book-chapter")
 
 QUERY_DEFS: list = []     # Scopus/WoS queries: leave empty if you have no access.
 

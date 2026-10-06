@@ -1,7 +1,8 @@
 """Bibliographic search sources registry.
 
-Exposes a base `SearchSource` ABC and four concrete implementations:
-Scopus, Web of Science Expanded, OpenAlex, Semantic Scholar. Driven
+Exposes a base `SearchSource` ABC and six concrete implementations:
+Scopus, Web of Science Expanded, OpenAlex, Semantic Scholar, Crossref and
+Open Library (the last two for books and chapters). Driven
 by the orchestrator `search.py`; each source can also be run
 standalone via the `search_<name>.py` single-DB wrappers.
 
@@ -24,7 +25,9 @@ from .base import (
     empty_row,
     resolve_credential,
 )
+from .crossref import CrossrefSearch
 from .openalex import OpenAlexSearch
+from .openlibrary import OpenLibrarySearch
 from .scopus import ScopusSearch
 from .semantic_scholar import SemanticScholarSearch
 from .wos import WosSearch
@@ -32,6 +35,7 @@ from .wos import WosSearch
 # Class tuple — instantiate once in `searchers_by_name()`.
 ALL_SOURCE_CLASSES: tuple[type[SearchSource], ...] = (
     ScopusSearch, WosSearch, OpenAlexSearch, SemanticScholarSearch,
+    CrossrefSearch, OpenLibrarySearch,
 )
 
 
@@ -50,7 +54,9 @@ __all__ = (
     "SearchSource",
     "empty_row",
     "resolve_credential",
+    "CrossrefSearch",
     "OpenAlexSearch",
+    "OpenLibrarySearch",
     "ScopusSearch",
     "SemanticScholarSearch",
     "WosSearch",

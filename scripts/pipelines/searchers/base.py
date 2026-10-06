@@ -70,7 +70,7 @@ def resolve_credential(
 # source must still be present as empty strings / zero; downstream CSV
 # writers use DictWriter with a fixed fieldnames list.
 SEARCH_ROW_FIELDS = (
-    "db",              # "scopus" | "wos" | "openalex" | "semantic_scholar"
+    "db",              # "scopus" | "wos" | "openalex" | "semantic_scholar" | "crossref" | "openlibrary"
     "query",           # label of the query that produced the row
     "doi",
     "title",
@@ -90,6 +90,13 @@ SEARCH_ROW_FIELDS = (
     "type",            # Crossref type vocabulary — see CROSSREF_TYPES
     "cited_by",        # int
     "abstract",
+    # Book-level detail. Journal-article sources leave these empty; the
+    # humanities sources (Crossref books, Open Library) fill them, and
+    # `import_to_zotero._row_to_zotero_item` maps them onto the Zotero
+    # item, where `_filter_valid_fields` drops whatever the itemType lacks.
+    "isbn",            # first ISBN, digits only (hyphens stripped)
+    "publisher",
+    "language",        # ISO 639 code where the source gives one
     # per-source identifiers (empty when not applicable)
     "scopus_id",
     "wos_id",
@@ -289,6 +296,12 @@ class SearchSource(ABC):
     # not failed, because a citation stream is a supplement to the
     # database search and not every database exposes the relation.
     supports_citation_search: bool = False
+
+    # False for sources that must be asked for by name with `--databases`.
+    # A keyless source (Crossref, Open Library) is "ready" by
+    # `credentials_error()`, so without this flag it would silently join
+    # every default run and change what an existing review searches.
+    default_enabled: bool = True
 
     @abstractmethod
     def run(self, config, ctx: SearchContext) -> list[dict]:

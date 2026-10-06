@@ -32,6 +32,10 @@ of political thought and philosophy, and the theory of history.
 - Skill `historiographical-survey`; templates `survey_search_config.py` and
   `survey_screening_config.py` (interpretive triage and coding fields: thesis, interlocutors,
   primary sources, school or method). The screening and coding scripts are unchanged.
+- Searchers `crossref` and `openlibrary` (keyless, opt-in via `--databases`) for books and
+  chapters; search rows gain `isbn`, `publisher`, `language`, imported to Zotero, and dedup merges
+  on ISBN. `book_lookup.py` looks up a book by ISBN or title. Not built, with reasons in
+  BACKLOG: PhilPapers, JSTOR, Project MUSE, WorldCat.
 - `searchers/openalex.py`: the ISSN filter is omitted when no journals are configured, and
   `OPENALEX_WORK_TYPES` admits books and chapters (default remains articles).
 - `templates/chicago-notes-bibliography.csl` (CMOS 18, from the CSL style

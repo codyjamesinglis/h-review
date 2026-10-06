@@ -43,6 +43,11 @@ Chicago bibliography shows them. Set fields with
 
 1. **Search first.** `mcp__zotero__zotero_search_items` by title, author
    and year. Do not create a duplicate of an item that exists.
+   To find the edition's metadata, run `book_lookup.py --isbn <ISBN>` or
+   `--title … --author …` (in `historiographical-survey`): it prints
+   Crossref and Open Library candidates (title, publisher, year, ISBN)
+   without writing anything. Check the candidate against the copy in
+   hand; catalogue records differ by edition and printing.
 2. If the edition is not in the library, add it with
    `mcp__zotero__zotero_add_item` (`source_type="doi"` when there is a
    DOI, else `"url"`), then fill the fields above. Books usually have

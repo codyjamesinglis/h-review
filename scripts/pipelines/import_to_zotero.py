@@ -450,6 +450,15 @@ def _row_to_zotero_item(
         "pages": row.get("pages", "") or "",
         "extra": "",
     }
+    # Book-level fields: written for every row that has them; the import's
+    # `_filter_valid_fields` drops those the itemType does not take
+    # (a journalArticle has no ISBN or publisher).
+    if row.get("isbn"):
+        item["ISBN"] = row["isbn"]
+    if row.get("publisher"):
+        item["publisher"] = row["publisher"]
+    if row.get("language"):
+        item["language"] = row["language"]
     container = _CONTAINER_FIELD.get(item_type)
     if container:
         item[container] = row.get("source", "")
